@@ -19,7 +19,6 @@ header, footer {
   background-color: #333;
   color: white;
   padding: 1rem;
-  text-align: center;
   flex-shrink: 0;
 }
 
@@ -32,3 +31,67 @@ footer {
   background-color: #222;
 }
 
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: background 0.3s;
+}
+
+.nav-links li a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+/* Burger Menü */
+.burger {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    text-align: center;
+  }
+}

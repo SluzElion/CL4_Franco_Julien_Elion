@@ -1,0 +1,36 @@
+header {
+  position: fixed;
+}
+
+.hero {
+  height: 100vh;
+  background: url("../img/hero-image.jpg") no-repeat center center;
+  background-size: 110%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-position 1.1s ease-out;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    background-size: cover; /* Weniger Bewegung, mehr Lesbarkeit */
+    background-position: center;
+  }
+
+  .hero-text {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+}

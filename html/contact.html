@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LMF | Kontakt</title>
+
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/contact.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <a href="../index.html" class="logo">LMF</a>
+        <div class="burger">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="about.html">Über Mich</a></li>
+          <li><a class="active" href="contact.html">Kontakt</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="content fade-in kontakt-section">
+        <div class="content-text">
+          <h1>Kontakt</h1>
+          <p>
+            Lukas Meier Fotografie<br />Bruchstrasse 45<br />6003 Luzern,
+            Schweiz <br />
+            <br />
+            E-Mail: info@lukasmeier.com<br />Telefon: +41 (0)41 789 56 32
+          </p>
+        </div>
+        <form class="kontakt-formular">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="vorname">Vorname</label>
+              <input type="text" id="vorname" name="vorname" />
+            </div>
+            <div class="form-group">
+              <label for="nachname">Nachname</label>
+              <input type="text" id="nachname" name="nachname" />
+            </div>
+            <div class="form-group">
+              <label for="email">E-Mail-Adresse *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="telefon">Telefon</label>
+              <input type="tel" id="telefon" name="telefon" />
+            </div>
+            <div class="form-group full-width">
+              <label for="nachricht">Nachricht hinterlassen</label>
+              <textarea id="nachricht" name="nachricht" rows="4"></textarea>
+            </div>
+          </div>
+          <button type="submit">Absenden</button>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer footer-alt">
+      <div class="footer-section">
+        <p>©2025 Diese Webseite ist ein Schulprojekt.</p>
+      </div>
+      <div class="footer-section">
+        <p>LMF GmbH</p>
+      </div>
+      <div class="footer-section">
+        <p>Elion Berisha | Franco Schulze | Julien Egli</p>
+      </div>
+    </footer>
+
+    <script src="../js/databasClient.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".kontakt-formular");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const vorname = document.getElementById("vorname");
+          const nachname = document.getElementById("nachname");
+          const email = document.getElementById("email");
+          const telefon = document.getElementById("telefon");
+          const nachricht = document.getElementById("nachricht");
+
+          let isValid = true;
+          let messages = [];
+
+          const nameRegex = /^[a-zA-ZäöüÄÖÜss\s-]{2,}$/;
+          if (!nameRegex.test(vorname.value.trim())) {
+            isValid = false;
+            messages.push("Vorname muss mindestens 2 Buchstaben enthalten.");
+          }
+
+          if (!nameRegex.test(nachname.value.trim())) {
+            isValid = false;
+            messages.push("Nachname muss mindestens 2 Buchstaben enthalten.");
+          }
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email.value.trim())) {
+            isValid = false;
+            messages.push("Bitte eine gültige E-Mail-Adresse eingeben.");
+          }
+
+          const telRegex = /^[0-9+\s\-()]{5,}$/;
+          if (telefon.value.trim() && !telRegex.test(telefon.value.trim())) {
+            isValid = false;
+            messages.push(
+              "Ihre Telefonnummer enthält Buchstaben, nutzen Sie Nummern."
+            );
+          }
+
+          if (nachricht.value.trim() && nachricht.value.trim().length < 10) {
+            isValid = false;
+            messages.push("Nachricht muss mindestens 10 Zeichen lang sein.");
+          }
+
+          if (!isValid) {
+            alert("Fehler im Formular:\n\n" + messages.join("\n"));
+          } else {
+            databaseClient
+              .insertInto("kontakt", {
+                vorname: vorname.value.trim(),
+                nachname: nachname.value.trim(),
+                email: email.value.trim(),
+                telefon: telefon.value.trim(),
+                nachricht: nachricht.value.trim(),
+              })
+              .then((result) => {
+                if (result && !result.error) {
+                  alert(
+                    "Vielen Dank! Ihre Nachricht wurde erfolgreich übermittelt."
+                  );
+                  form.reset();
+                } else {
+                  alert(
+                    "Fehler beim Speichern der Daten. Bitte versuchen Sie es erneut."
+                  );
+                  console.error(result);
+                }
+              });
+          }
+        });
+      });
+    </script>
+    <script src="../js/common.js"></script>
+  </body>
+</html>
